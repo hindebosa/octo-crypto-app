@@ -16,12 +16,8 @@ import {
   Table,
   Paper,
 } from "@material-ui/core";
-import axios from "axios";
-
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { RouterState } from "@remix-run/router";
-// import { CryptoState } from "../CryptoContext";
 import type { RootState } from "../../redux/store";
 import { useFetchCoinsListQuery } from "../../services/crypto";
 
@@ -40,14 +36,13 @@ export default function CoinsTable() {
   const { data, error, isLoading } = useFetchCoinsListQuery(currency);
 
   useEffect(() => {
-    console.log("click click");
     setCoins(data);
     setLoading(isLoading);
-  }, [currency]);
+  }, [currency, data]);
 
   const useStyles = makeStyles({
     row: {
-      backgroundColor: "#16171a",
+      backgroundColor: "#081a47",
       cursor: "pointer",
       "&:hover": {
         backgroundColor: "#131111",

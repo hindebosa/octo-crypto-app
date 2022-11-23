@@ -4,19 +4,16 @@ import cryptoReducer from "./features/crytpo/cryptoslice";
 
 // Or from '@reduxjs/toolkit/query/react'
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { coinListApi, pokemonApi, trendingApi } from "../services/crypto";
+import { CryptoApi } from "../services/crypto";
 
 export const store = configureStore({
   reducer: {
     counter: counterReducer,
-    [trendingApi.reducerPath]: trendingApi.reducer,
-    [coinListApi.reducerPath]: coinListApi.reducer,
+    [CryptoApi.reducerPath]: CryptoApi.reducer,
     crypto: cryptoReducer,
   },
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware()
-      .concat(trendingApi.middleware)
-      .concat(coinListApi.middleware),
+    getDefaultMiddleware().concat(CryptoApi.middleware),
 });
 
 setupListeners(store.dispatch);

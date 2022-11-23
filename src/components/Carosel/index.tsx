@@ -29,10 +29,10 @@ export function numberWithCommas(x: number) {
 const Carosel = () => {
   const currency = useSelector((state: RootState) => state.crypto.currency);
   const [trending, setTrending] = useState([]);
-  const { data, error, isLoading } = useFetchTrendingCoinsQuery(currency);
+  const { data } = useFetchTrendingCoinsQuery(currency);
   useEffect(() => {
     setTrending(data);
-  }, [currency]);
+  }, [currency, data]);
 
   const classes = useStyles();
   const items = trending?.map((coin) => {

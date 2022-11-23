@@ -1,5 +1,4 @@
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
-import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
@@ -16,14 +15,13 @@ const Coin = () => {
   const { id } = useParams();
   const [coin, setCoin] = useState();
 
-  const { data, error, isLoading } = useFetchSingleCoinQuery(id);
+  const { data, isLoading } = useFetchSingleCoinQuery(id);
 
   const currency = useSelector((state: RootState) => state.crypto.currency);
 
   useEffect(() => {
-    console.log(data);
     setCoin(data);
-  }, [data]);
+  }, [data, currency]);
 
   const useStyles = makeStyles((theme) => ({
     container: {

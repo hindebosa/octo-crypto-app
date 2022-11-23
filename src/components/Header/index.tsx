@@ -8,7 +8,7 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,7 +32,7 @@ const Header: React.FC<PropsWithChildren> = () => {
   const dispatch = useDispatch();
 
   const currency = useSelector((state: RootState) => state.crypto.currency);
-  console.log(currency);
+
   return (
     <AppBar color="transparent" position="sticky">
       <Container>

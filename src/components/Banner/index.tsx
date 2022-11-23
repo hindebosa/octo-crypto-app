@@ -1,6 +1,6 @@
 import { Container, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import { classes } from "istanbul-lib-coverage";
+
 import Carosel from "../Carosel";
 
 const useStyles = makeStyles((theme?: any) => ({

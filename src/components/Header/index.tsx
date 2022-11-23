@@ -8,13 +8,13 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { PropsWithChildren } from "react";
 import { useNavigate } from "react-router";
-import type { RootState } from "../../redux/store";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { changeCurrency } from "../../redux/features/crytpo/cryptoslice";
+import type { RootState } from "../../redux/store";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -29,14 +29,10 @@ const useStyles = makeStyles(() => ({
 const Header: React.FC<PropsWithChildren> = () => {
   const classes = useStyles();
   const navigate = useNavigate();
-  const count = useSelector((state: RootState) => state.counter.value);
   const dispatch = useDispatch();
-  const [currency, setCurrency] = useState("zar");
 
-  useEffect(() => {
-    console.log(currency);
-  }, [currency]);
-
+  const currency = useSelector((state: RootState) => state.crypto.currency);
+  console.log(currency);
   return (
     <AppBar color="transparent" position="sticky">
       <Container>
@@ -55,7 +51,7 @@ const Header: React.FC<PropsWithChildren> = () => {
               //@ts-ignore
               onChange={(e) => dispatch(changeCurrency(e.target.value))}
             >
-              <MenuItem value={"zar"}>Ten</MenuItem>
+              <MenuItem value={"zar"}>ZAR</MenuItem>
               <MenuItem value={"usd"}>USD</MenuItem>
               <MenuItem value={"eur"}>EUR</MenuItem>
             </Select>

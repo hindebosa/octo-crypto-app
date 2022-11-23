@@ -6,14 +6,10 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import Home from "./containers/Home";
 import Coin from "./containers/Coin";
-import type { RootState } from "./redux/store";
-import { useSelector, useDispatch } from "react-redux";
-import { decrement, increment } from "./redux/features/counter/counterSlice";
-import { useGetPokemonByNameQuery } from "./services/crypto";
 
 const useStyles = makeStyles((theme?: any) => ({
   App: {
-    backgroundColor: "#14161a",
+    backgroundColor: "#0b235e",
     color: "#05386B",
     minHeight: "100vh",
   },

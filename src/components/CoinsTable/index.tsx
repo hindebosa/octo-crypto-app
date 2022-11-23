@@ -33,11 +33,12 @@ export default function CoinsTable() {
 
   const currency = useSelector((state: RootState) => state.crypto.currency);
 
-  const { data, error, isLoading } = useFetchCoinsListQuery(currency);
+  const { data, isLoading } = useFetchCoinsListQuery(currency);
 
   useEffect(() => {
     setCoins(data);
     setLoading(isLoading);
+    // eslint-disable-next-line
   }, [currency, data]);
 
   const useStyles = makeStyles({

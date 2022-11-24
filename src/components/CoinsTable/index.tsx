@@ -146,9 +146,7 @@ export default function CoinsTable() {
                           </div>
                         </TableCell>
                         <TableCell align="right">
-                          {numberWithCommas(
-                            parseInt(row.current_price.toFixed(2))
-                          )}
+                          {numberWithCommas(row.current_price)}
                         </TableCell>
                         <TableCell
                           align="right"
@@ -161,7 +159,6 @@ export default function CoinsTable() {
                           {row.price_change_percentage_24h.toFixed(2)}%
                         </TableCell>
                         <TableCell align="right">
-                          {/* {symbol}{" "} */}
                           {numberWithCommas(
                             parseInt(row?.market_cap.toString().slice(0, -6))
                           )}

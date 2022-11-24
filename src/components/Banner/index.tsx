@@ -52,10 +52,8 @@ const Banner = () => {
               textTransform: "capitalize",
             }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Eligendi
-            pariatur dolorum eveniet laboriosam maiores? Libero expedita neque
-            odio, tempore, dicta, cumque adipisci labore reiciendis non nostrum
-            delectus unde quidem praesentium!
+            Coin Scrapper that allows you to view more than 50 coins. You canm
+            also view the individual coin and see the history
           </Typography>
         </div>
 

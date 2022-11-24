@@ -6,6 +6,7 @@ import { makeStyles } from "@material-ui/core/styles";
 import "./App.css";
 import Home from "./containers/Home";
 import Coin from "./containers/Coin";
+import Error from "./containers/404 ";
 
 const useStyles = makeStyles((theme?: any) => ({
   App: {
@@ -22,6 +23,7 @@ function App() {
       <div className={classes.App}>
         <Header />
         <Routes>
+          <Route path="*" element={<Error />} />
           <Route path="/" element={<Home />} />
           <Route path="/coins/:id" element={<Coin />} />
         </Routes>

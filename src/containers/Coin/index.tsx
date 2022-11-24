@@ -1,27 +1,19 @@
 import { LinearProgress, makeStyles, Typography } from "@material-ui/core";
-import { useEffect, useState } from "react";
+
 import { useParams } from "react-router-dom";
 import ReactHtmlParser from "react-html-parser";
 import CoinInfo from "../../components/CoinsInfo";
 import { useFetchSingleCoinQuery } from "../../services/crypto";
 import { useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
-
-export function numberWithCommas(x: number) {
-  return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-}
+import { numberWithCommas } from "../../utils";
 
 const Coin = () => {
   const { id } = useParams();
-  const [coin, setCoin] = useState();
 
-  const { data, isLoading } = useFetchSingleCoinQuery(id);
+  const { data, isLoading } = useFetchSingleCoinQuery(id || "");
 
   const currency = useSelector((state: RootState) => state.crypto.currency);
-
-  useEffect(() => {
-    setCoin(data);
-  }, [data, currency]);
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -78,36 +70,23 @@ const Coin = () => {
 
   const classes = useStyles();
 
-  if (!coin || isLoading)
+  if (!data || isLoading)
     return <LinearProgress style={{ backgroundColor: "gold" }} />;
 
   return (
     <div className={classes.container}>
       <div className={classes.sidebar}>
         <img
-          src={
-            //@ts-ignore
-            coin?.image.large
-          }
-          alt={
-            //@ts-ignore
-            coin?.name
-          }
+          src={data?.image.large}
+          alt={data?.name}
           height="200"
           style={{ marginBottom: 20 }}
         />
         <Typography variant="h3" className={classes.heading}>
-          {
-            //@ts-ignore
-            coin?.name
-          }
+          {data?.name}
         </Typography>
         <Typography variant="subtitle1" className={classes.description}>
-          {ReactHtmlParser(
-            //@ts-ignore
-            coin?.description.en.split(". ")[0]
-          )}
-          .
+          {ReactHtmlParser(data?.description.en.split(". ")[0])}.
         </Typography>
         <div className={classes.marketData}>
           <span style={{ display: "flex" }}>
@@ -121,10 +100,7 @@ const Coin = () => {
                 color: "#e6c000",
               }}
             >
-              {
-                //@ts-ignore
-                numberWithCommas(coin?.market_cap_rank)
-              }
+              {numberWithCommas(data?.market_cap_rank)}
             </Typography>
           </span>
 
@@ -139,10 +115,9 @@ const Coin = () => {
                 color: "#e6c000",
               }}
             >
-              {/* {symbol}{" "} */}
               {numberWithCommas(
                 //@ts-ignore
-                coin?.market_data.current_price[currency.toLowerCase()]
+                data?.market_data?.current_price[currency?.toLowerCase()]
               )}
             </Typography>
           </span>
@@ -157,10 +132,9 @@ const Coin = () => {
                 color: "#e6c000",
               }}
             >
-              {/* {symbol}{" "} */}
               {numberWithCommas(
                 //@ts-ignore
-                coin?.market_data.market_cap[currency.toLowerCase()]
+                data?.market_data.market_cap[currency.toLowerCase()]
                   .toString()
                   .slice(0, -6)
               )}
@@ -169,7 +143,8 @@ const Coin = () => {
           </span>
         </div>
       </div>
-      <CoinInfo coin={coin} />
+
+      <CoinInfo id={data.id} />
     </div>
   );
 };

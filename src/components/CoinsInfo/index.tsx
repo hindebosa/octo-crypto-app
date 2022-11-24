@@ -1,7 +1,3 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { HistoricalChart } from "../../config/api";
-// import { Line } from "react-chartjs-2";
 import {
   CircularProgress,
   createTheme,
@@ -10,23 +6,33 @@ import {
 } from "@material-ui/core";
 import SelectButton from "../SelectButton";
 import { chartDays } from "../../config/data";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import type { RootState } from "../../redux/store";
 
 import { Chart as ChartJS, registerables } from "chart.js";
 import { Line } from "react-chartjs-2";
+
+import { useFetchHistoryOfCoinsQuery } from "../../services/crypto";
+import { changeDays } from "../../redux/features/crytpo/cryptoslice";
 ChartJS.register(...registerables);
 
-//@ts-ignore
+type CoinInfoProps = {
+  id: string;
+};
 
-const CoinInfo = ({ coin }) => {
-  const [historicData, setHistoricData] = useState();
-  const [days, setDays] = useState(1);
-  //   const { currency } = CryptoState();
-
+const CoinInfo: React.FC<CoinInfoProps> = ({ id }) => {
   const currency = useSelector((state: RootState) => state.crypto.currency);
+  const days = useSelector((state: RootState) => state.crypto.days);
 
-  const [flag, setflag] = useState(false);
+  const { data, isLoading } = useFetchHistoryOfCoinsQuery({
+    id,
+    days,
+    currency,
+  });
+
+  let prices = data?.prices;
+
+  const dispatch = useDispatch();
 
   const useStyles = makeStyles((theme) => ({
     container: {
@@ -48,17 +54,6 @@ const CoinInfo = ({ coin }) => {
 
   const classes = useStyles();
 
-  const fetchHistoricData = async () => {
-    const { data } = await axios.get(HistoricalChart(coin.id, days, currency));
-    setflag(true);
-    setHistoricData(data.prices);
-  };
-
-  useEffect(() => {
-    fetchHistoricData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [days]);
-
   const darkTheme = createTheme({
     palette: {
       primary: {
@@ -71,7 +66,7 @@ const CoinInfo = ({ coin }) => {
   return (
     <ThemeProvider theme={darkTheme}>
       <div className={classes.container}>
-        {!historicData || flag === false ? (
+        {!prices || isLoading ? (
           <CircularProgress
             style={{ color: "gold" }}
             size={250}
@@ -81,8 +76,7 @@ const CoinInfo = ({ coin }) => {
           <>
             <Line
               data={{
-                //@ts-ignore
-                labels: historicData?.map((coin) => {
+                labels: prices?.map((coin) => {
                   let date = new Date(coin[0]);
                   let time =
                     date.getHours() > 12
@@ -93,8 +87,7 @@ const CoinInfo = ({ coin }) => {
 
                 datasets: [
                   {
-                    //@ts-ignore
-                    data: historicData.map((coin) => coin[1]),
+                    data: prices.map((coin) => coin[1]),
                     label: `Price ( Past ${days} Days ) in ${currency}`,
                     borderColor: "#EEBC1D",
                   },
@@ -120,8 +113,7 @@ const CoinInfo = ({ coin }) => {
                 <SelectButton
                   key={day.value}
                   onClick={() => {
-                    setDays(day.value);
-                    setflag(false);
+                    dispatch(changeDays(day.value));
                   }}
                   selected={day.value === days}
                 >

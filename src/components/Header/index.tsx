@@ -24,6 +24,7 @@ const useStyles = makeStyles(() => ({
     fontWeight: "bold",
     cursor: "pointer",
   },
+  formControl: { minWidth: 140 },
 }));
 
 const Header: React.FC<PropsWithChildren> = () => {
@@ -41,19 +42,21 @@ const Header: React.FC<PropsWithChildren> = () => {
             Coin Scrapper
           </Typography>
 
-          <FormControl>
-            <InputLabel id="demo-simple-select-label">Age</InputLabel>
+          <FormControl className={classes.formControl}>
+            <InputLabel id="demo-simple-select-label">
+              Change Currency
+            </InputLabel>
             <Select
               labelId="demo-simple-select-label"
               id="demo-simple-select"
               value={currency}
-              label="Age"
-              //@ts-ignore
+              label="Currency"
               onChange={(e) => dispatch(changeCurrency(e.target.value))}
             >
               <MenuItem value={"zar"}>ZAR</MenuItem>
               <MenuItem value={"usd"}>USD</MenuItem>
               <MenuItem value={"eur"}>EUR</MenuItem>
+              <MenuItem value={"bit"}>BIT</MenuItem>
             </Select>
           </FormControl>
         </Toolbar>

@@ -15,6 +15,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import { changeCurrency } from "../../redux/features/crytpo/cryptoslice";
 import type { RootState } from "../../redux/store";
+import { currencyABV } from "../../config/currecy";
 
 const useStyles = makeStyles(() => ({
   title: {
@@ -53,10 +54,11 @@ const Header: React.FC<PropsWithChildren> = () => {
               label="Currency"
               onChange={(e) => dispatch(changeCurrency(e.target.value))}
             >
-              <MenuItem value={"zar"}>ZAR</MenuItem>
-              <MenuItem value={"usd"}>USD</MenuItem>
-              <MenuItem value={"eur"}>EUR</MenuItem>
-              <MenuItem value={"bit"}>BIT</MenuItem>
+              {currencyABV.map((currency: string, index: number) => (
+                <MenuItem value={currency} key={index}>
+                  {currency}
+                </MenuItem>
+              ))}
             </Select>
           </FormControl>
         </Toolbar>

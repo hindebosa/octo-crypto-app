@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit";
 
 export interface CounterState {
   currency: string;
+  days: number;
 }
 
 const initialState: CounterState = {
   currency: "zar",
+  days: 1,
 };
 
 export const cryptoSlice = createSlice({
@@ -15,10 +17,12 @@ export const cryptoSlice = createSlice({
     changeCurrency: (state, action) => {
       state.currency = action.payload;
     },
+    changeDays: (state, action) => {
+      state.days = action.payload;
+    },
   },
 });
 
-// Action creators are generated for each case reducer function
-export const { changeCurrency } = cryptoSlice.actions;
+export const { changeCurrency, changeDays } = cryptoSlice.actions;
 
 export default cryptoSlice.reducer;
